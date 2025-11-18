@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button class="btn">
+      <span class="text">WELCOME!</span>
+      <span class="loader"></span>
+    </button>
+    <script>
+      // 1. btn 클래스명을 가지고 있는 버튼을 클릭했을 때 loading 이라는 클래스명이 붙습니다.
+      //     1. 해당 버튼을 클릭할 때 눌리는 듯한 효과가 보입니다.
+      //     2. 해당 버튼에 loading 클래스가 붙어 있을 때 로딩 스피너가 360도 돌아갑니다.
+
+      let timer;
+
+      const btn = document.querySelector(".btn");
+      btn.addEventListener("click", () => {
+        btn.classList.add("loading");
+        clearTimeout(timer);
+        timer = null;
+        timer = setTimeout(() => {
+          btn.classList.remove("loading");
+        }, 3000);
+      });
+
+      // 2. 3초 뒤에 loading 이라는 클래스명이 사라집니다.
+      //     1. 사라지면 눌리는 듯이 보였던 버튼이 다시 올라옵니다.
+      //     2. 사라지면 로딩 스피너도 사라지고, 다시 Welcome 문구가 보입니다.
+    </script>
+  </body>
+</html>
