@@ -91,13 +91,88 @@
       const secondNumberSpan = document.querySelector(".secondNumber");
       const resultSpan = document.querySelector(".result");
 
+      let shouldResetOnNextNumber = false;
+
+      // 숫자 선택 로직
+      function selectNumber(number) {
+        if (shouldResetOnNextNumber) {
+          resetAll();
+          shouldResetOnNextNumber = false;
+        }
+
+        if (firstNumber === NUMBER_INITIAL_VALUE) {
+          firstNumber = number;
+          firstNumberSpan.textContent = `First Number: ${firstNumber}`;
+        } else if (secondNumber === NUMBER_INITIAL_VALUE) {
+          secondNumber = number;
+          secondNumberSpan.textContent = `Second Number: ${secondNumber}`;
+        }
+      }
+
       const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-      // 위 numbers 배열을 활용하여 ul 태그에 순서대로 숫자를 화면에 보여주세요.
-      // li 태그 생김새 : <li><button>1</button></li>
+      const ulEl = document.querySelector("ul");
+
+      numbers.forEach((num) => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.textContent = num;
+
+        btn.addEventListener("click", () => {
+          selectNumber(num);
+        });
+
+        li.append(btn);
+        ulEl.append(li);
+      });
 
       const operators = ["+", "-", "*", "/"];
-      // 위 operators 배열을 활용하여 div.buttons 안에 <button>+</button>형태로
-      // 연산자들을 순서대로 화면에 보여주세요
+      const divButton = document.querySelector(".buttons");
+
+      operators.forEach((op) => {
+        const btn = document.createElement("button");
+        btn.textContent = op;
+        divButton.append(btn);
+
+        btn.addEventListener("click", () => {
+          if (
+            firstNumber === NUMBER_INITIAL_VALUE ||
+            secondNumber === NUMBER_INITIAL_VALUE
+          ) {
+            alert("숫자를 먼저 선택해주세요");
+            return;
+          }
+
+          const result = cal(firstNumber, secondNumber, op);
+
+          resultSpan.textContent = `Result: ${firstNumber} ${op} ${secondNumber} = ${result}`;
+
+          shouldResetOnNextNumber = true;
+        });
+      });
+
+      function cal(firstNumber, secondNumber, operator) {
+        switch (operator) {
+          case "+":
+            return firstNumber + secondNumber;
+          case "-":
+            return firstNumber - secondNumber;
+          case "*":
+            return firstNumber * secondNumber;
+          case "/":
+            return firstNumber / secondNumber;
+          default:
+            return 0;
+        }
+      }
+
+      function resetAll() {
+        firstNumber = NUMBER_INITIAL_VALUE;
+        secondNumber = NUMBER_INITIAL_VALUE;
+
+        firstNumberSpan.textContent = "";
+        secondNumberSpan.textContent = "";
+        resultSpan.textContent = "";
+      }
     </script>
   </body>
 </html>
